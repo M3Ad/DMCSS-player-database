@@ -1,0 +1,151 @@
+.uploadContainer {
+  margin: 16px 0;
+}
+
+.uploadLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 8px;
+}
+
+.uploadArea {
+  border: 2px dashed #cbd5e0;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  background: #f7fafc;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.uploadArea:hover {
+  border-color: #ffcc00;
+  background: #fffef7;
+}
+
+.uploadAreaActive {
+  border-color: #ffcc00;
+  background: #fffef7;
+}
+
+.uploadIcon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+.uploadText {
+  font-size: 14px;
+  color: #4a5568;
+  margin-bottom: 4px;
+}
+
+.uploadHint {
+  font-size: 12px;
+  color: #a0aec0;
+}
+
+.fileInput {
+  display: none;
+}
+
+.previewContainer {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.preview {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+  object-fit: cover;
+}
+
+.uploadButton {
+  margin-top: 12px;
+  padding: 10px 20px;
+  background: #48bb78;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.uploadButton:hover:not(:disabled) {
+  background: #38a169;
+}
+
+.uploadButton:disabled {
+  background: #9ae6b4;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  margin-left: 8px;
+  padding: 10px 20px;
+  background: #e2e8f0;
+  color: #4a5568;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelButton:hover {
+  background: #cbd5e0;
+}
+
+.uploadMessage {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.uploadMessageSuccess {
+  background: #c6f6d5;
+  color: #22543d;
+  border: 1px solid #9ae6b4;
+}
+
+.uploadMessageError {
+  background: #fed7d7;
+  color: #742a2a;
+  border: 1px solid #fc8181;
+}
+
+.currentPhoto {
+  margin-top: 12px;
+  padding: 12px;
+  background: #f7fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+.currentPhotoLabel {
+  font-size: 12px;
+  color: #718096;
+  margin-bottom: 8px;
+}
+
+.currentPhotoPreview {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+}
