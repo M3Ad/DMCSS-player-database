@@ -63,8 +63,15 @@ export default function SignInPage() {
         return;
       }
 
-      router.push("/player");
+      if (data?.session) {
+        // Successful sign-in, redirect to player page
+        window.location.href = "/player";
+      } else {
+        setError("Sign in failed. Please try again.");
+        setLoading(false);
+      }
     } catch (err) {
+      console.error("Sign in error:", err);
       setError("An unexpected error occurred. Please try again.");
       setLoading(false);
     }
