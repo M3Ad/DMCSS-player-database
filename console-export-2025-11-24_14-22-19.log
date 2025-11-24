@@ -1,0 +1,25 @@
+TypeError: can't access property "then", a.default.detectStore(...) is undefined h1-check.js:1:1301
+    u moz-extension://23796d95-90e0-43ec-b7a0-6a3fcea7a971/h1-check.js:1
+    1337 moz-extension://23796d95-90e0-43ec-b7a0-6a3fcea7a971/h1-check.js:1
+    n moz-extension://23796d95-90e0-43ec-b7a0-6a3fcea7a971/h1-check.js:1
+    <anonymous> moz-extension://23796d95-90e0-43ec-b7a0-6a3fcea7a971/h1-check.js:1
+    <anonymous> moz-extension://23796d95-90e0-43ec-b7a0-6a3fcea7a971/h1-check.js:1
+    #injectIntoIsolatedWorld resource://gre/modules/ExtensionContent.sys.mjs:683
+    inject resource://gre/modules/ExtensionContent.sys.mjs:668
+    injectInto resource://gre/modules/ExtensionContent.sys.mjs:518
+    AsyncFunctionNext self-hosted:800
+GET
+https://dmcss-player-database-25zbih1g3-l3aaas-projects.vercel.app/favicon.ico
+[HTTP/2 404  0ms]
+
+	
+GET
+	https://dmcss-player-database-25zbih1g3-l3aaas-projects.vercel.app/favicon.ico
+Status
+404
+VersionHTTP/2
+Transferred1.03 kB (2.33 kB size)
+Referrer Policystrict-origin-when-cross-origin
+DNS ResolutionSystem
+
+Error: Promised response from onMessage listener went out of scope 3 build.js:2:92650
