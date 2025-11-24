@@ -58,15 +58,20 @@ export default function SignInPage() {
       });
 
       if (signInError) {
+        console.error("Sign in error:", signInError);
         setError(signInError.message);
         setLoading(false);
         return;
       }
 
       if (data?.session) {
-        // Successful sign-in, redirect to player page
-        window.location.href = "/player";
+        console.log("Sign in successful, redirecting...");
+        // Force a hard redirect to ensure proper page load
+        setTimeout(() => {
+          window.location.href = "/player";
+        }, 100);
       } else {
+        console.error("No session returned");
         setError("Sign in failed. Please try again.");
         setLoading(false);
       }

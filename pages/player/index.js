@@ -22,36 +22,70 @@ function PlayerDashboard() {
   }, []);
 
   async function loadPlayer() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-    if (!user) {
-      return;
+      if (!user) {
+        console.error("No user found");
+        setLoading(false);
+        return;
+      }
+
+      console.log("Loading data for user:", user.id);
+
+      // Check if profile exists, if not create it
+      let { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      if (profileError && profileError.code === 'PGRST116') {
+        // Profile doesn't exist, create it
+        console.log("Creating profile for new user");
+        const { data: newProfile, error: createError } = await supabase
+          .from("profiles")
+          .insert([
+            {
+              id: user.id,
+              full_name: user.email?.split('@')[0] || "Player",
+              role: "player",
+            },
+          ])
+          .select()
+          .single();
+
+        if (createError) {
+          console.error("Error creating profile:", createError);
+        } else {
+          profileData = newProfile;
+        }
+      }
+
+      const { data: cardData } = await supabase
+        .from("player_card")
+        .select("*")
+        .eq("user_id", user.id)
+        .single();
+
+      const { data: programData } = await supabase
+        .from("training_program")
+        .select("*")
+        .eq("user_id", user.id)
+        .single();
+
+      console.log("Loaded:", { profile: profileData, card: cardData, program: programData });
+
+      setProfile(profileData);
+      setCard(cardData);
+      setProgram(programData);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error loading player data:", error);
+      setLoading(false);
     }
-
-    const { data: profileData } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single();
-
-    const { data: cardData } = await supabase
-      .from("player_card")
-      .select("*")
-      .eq("user_id", user.id)
-      .single();
-
-    const { data: programData } = await supabase
-      .from("training_program")
-      .select("*")
-      .eq("user_id", user.id)
-      .single();
-
-    setProfile(profileData);
-    setCard(cardData);
-    setProgram(programData);
-    setLoading(false);
   }
 
   async function handleLogout() {
