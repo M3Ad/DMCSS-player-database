@@ -27,7 +27,19 @@ export default function FifaCard({ profile, card }) {
             height={25}
             alt="T&T flag"
           />
-          <div className={styles.badgeBox}>CLUB</div>
+          <div className={styles.badgeBox}>
+            {card?.team_crest ? (
+              <Image
+                src={card.team_crest}
+                width={50}
+                height={50}
+                alt="Team Crest"
+                className={styles.teamCrest}
+              />
+            ) : (
+              "DMCSS"
+            )}
+          </div>
         </div>
 
         <div className={styles.photoFrame}>
