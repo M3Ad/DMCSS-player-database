@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "../lib/supabaseClient";
+import Link from "next/link";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -155,6 +156,13 @@ export default function SignInPage() {
             )}
           </button>
         </form>
+
+        <div style={styles.footer}>
+          Don't have an account?{" "}
+          <Link href="/signup" style={styles.link}>
+            Sign Up
+          </Link>
+        </div>
       </div>
     </div>
   );
@@ -251,5 +259,16 @@ const styles = {
     width: "16px",
     height: "16px",
     animation: "spin 1s linear infinite",
+  },
+  footer: {
+    marginTop: "20px",
+    textAlign: "center",
+    color: "#999",
+    fontSize: "14px",
+  },
+  link: {
+    color: "#ffcc00",
+    textDecoration: "none",
+    fontWeight: "500",
   },
 };
