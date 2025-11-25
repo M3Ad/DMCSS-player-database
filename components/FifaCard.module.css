@@ -32,7 +32,7 @@
 
 .topInfo {
   position: absolute;
-  top: 16px;
+  top: 17.5px;
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
