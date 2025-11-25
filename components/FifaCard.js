@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import Image from "next/image";
 import styles from "./FifaCard.module.css";
 
 const cardDesigns = {
@@ -154,20 +153,22 @@ export default function FifaCard({ profile, card }) {
         </div>
 
         <div className={styles.flagRow}>
-          <Image
+          <img
             src={card?.flag || "/trinidad_flag.png"}
             width={40}
             height={25}
             alt="Flag"
+            crossOrigin="anonymous"
           />
           <div className={styles.badgeBox}>
             {card?.team_crest ? (
-              <Image
+              <img
                 src={card.team_crest}
                 width={50}
                 height={50}
                 alt="Team Crest"
                 className={styles.teamCrest}
+                crossOrigin="anonymous"
               />
             ) : (
               "DMCSS"
@@ -177,12 +178,13 @@ export default function FifaCard({ profile, card }) {
 
         <div className={styles.photoFrame}>
           {profile?.photo_url ? (
-            <Image
+            <img
               src={profile.photo_url}
               width={140}
               height={140}
               alt="Player"
               className={styles.playerPhoto}
+              crossOrigin="anonymous"
             />
           ) : (
             <div className={styles.photoPlaceholderEmpty}>
