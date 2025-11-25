@@ -57,6 +57,8 @@ export default function FifaCard({ profile, card }) {
         backgroundColor: null,
         scale: 2, // Higher quality
         logging: false,
+        useCORS: true, // Enable CORS to capture external images
+        allowTaint: true, // Allow cross-origin images
       });
       
       // Convert to blob and download
@@ -85,30 +87,49 @@ export default function FifaCard({ profile, card }) {
         backgroundColor: null,
         scale: 2,
         logging: false,
+        useCORS: true, // Enable CORS to capture external images
+        allowTaint: true, // Allow cross-origin images
       });
 
       canvas.toBlob(async (blob) => {
         const file = new File([blob], `${profile?.full_name || 'player'}-card.png`, { type: 'image/png' });
         
-        if (navigator.share && navigator.canShare({ files: [file] })) {
+        // Check if Web Share API is available and supports file sharing
+        const canShare = navigator.share && navigator.canShare && navigator.canShare({ files: [file] });
+        
+        if (canShare) {
           try {
             await navigator.share({
               files: [file],
               title: `${profile?.full_name || 'Player'} Card`,
               text: 'Check out my player card!',
             });
+            setDownloading(false);
           } catch (err) {
             if (err.name !== 'AbortError') {
               console.error('Share failed:', err);
-              // Fallback to download
-              downloadCard();
+              // Fallback to download on error
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement('a');
+              link.download = `${profile?.full_name || 'player'}-card.png`;
+              link.href = url;
+              link.click();
+              URL.revokeObjectURL(url);
+              setDownloading(false);
+            } else {
+              setDownloading(false);
             }
           }
         } else {
-          // Fallback to download if sharing not supported
-          downloadCard();
+          // Fallback to download if sharing not supported (Firefox, desktop browsers)
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.download = `${profile?.full_name || 'player'}-card.png`;
+          link.href = url;
+          link.click();
+          URL.revokeObjectURL(url);
+          setDownloading(false);
         }
-        setDownloading(false);
       });
     } catch (error) {
       console.error('Error sharing card:', error);
