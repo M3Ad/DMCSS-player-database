@@ -56,6 +56,7 @@ export default function FifaCard({ profile, card }) {
     const sum = values.reduce((a, b) => a + b, 0);
     return Math.floor(sum / values.length);
   })();
+  const cardType = (card?.card_design || 'gold').toUpperCase();
 
   const downloadCard = async () => {
     if (!cardRef.current) return;
@@ -152,6 +153,13 @@ export default function FifaCard({ profile, card }) {
       <div className={styles.card} ref={cardRef} style={{ background: design.background }}>
         <div className={styles.topCurve}></div>
 
+        {/* Top centered info: AVG and Card Type */}
+        <div className={styles.topInfo}>
+          <span className={styles.topAvg}>{avg ?? '-'}</span>
+          <span className={styles.topDivider}>•</span>
+          <span className={styles.topType}>{cardType}</span>
+        </div>
+
         <div className={styles.topRow}>
           <div>
             <div className={styles.label}>AGE</div>
@@ -209,12 +217,7 @@ export default function FifaCard({ profile, card }) {
           {profile?.full_name || profile?.name || "Player Name"}
         </div>
 
-        {avg !== null && (
-          <div className={styles.avgBadge}>
-            <span className={styles.avgValue}>{avg}</span>
-            <span className={styles.avgLabel}>AVG</span>
-          </div>
-        )}
+        {/* AVG badge moved to top; no inline badge here */}
 
         {hasStats ? (
           <div className={styles.statsGrid}>
