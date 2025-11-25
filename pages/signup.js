@@ -68,7 +68,8 @@ export default function SignUpPage() {
 
       if (data.user) {
         // Create profile for the new user
-        const { error: profileError } = await supabase
+        console.log("Creating profile with full_name:", fullName.trim());
+        const { data: profileData, error: profileError } = await supabase
           .from("profiles")
           .insert([
             {
@@ -76,11 +77,17 @@ export default function SignUpPage() {
               full_name: fullName.trim(),
               role: "player",
             },
-          ]);
+          ])
+          .select();
 
         if (profileError) {
           console.error("Profile creation error:", profileError);
+          setError("Account created but profile setup failed. Please contact support.");
+          setLoading(false);
+          return;
         }
+
+        console.log("Profile created successfully:", profileData);
 
         setSuccess(true);
         // Redirect to login after 2 seconds
