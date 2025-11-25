@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./FifaCard.module.css";
 
@@ -43,10 +44,81 @@ const cardDesigns = {
 export default function FifaCard({ profile, card }) {
   const hasStats = card && (card.pac || card.sho || card.pas || card.dri || card.def || card.phy);
   const design = cardDesigns[card?.card_design] || cardDesigns.gold;
+  const cardRef = useRef(null);
+  const [downloading, setDownloading] = useState(false);
+
+  const downloadCard = async () => {
+    if (!cardRef.current) return;
+    
+    setDownloading(true);
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const canvas = await html2canvas(cardRef.current, {
+        backgroundColor: null,
+        scale: 2, // Higher quality
+        logging: false,
+      });
+      
+      // Convert to blob and download
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = `${profile?.full_name || 'player'}-card.png`;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+        setDownloading(false);
+      });
+    } catch (error) {
+      console.error('Error downloading card:', error);
+      setDownloading(false);
+    }
+  };
+
+  const shareCard = async () => {
+    if (!cardRef.current) return;
+
+    setDownloading(true);
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const canvas = await html2canvas(cardRef.current, {
+        backgroundColor: null,
+        scale: 2,
+        logging: false,
+      });
+
+      canvas.toBlob(async (blob) => {
+        const file = new File([blob], `${profile?.full_name || 'player'}-card.png`, { type: 'image/png' });
+        
+        if (navigator.share && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: `${profile?.full_name || 'Player'} Card`,
+              text: 'Check out my player card!',
+            });
+          } catch (err) {
+            if (err.name !== 'AbortError') {
+              console.error('Share failed:', err);
+              // Fallback to download
+              downloadCard();
+            }
+          }
+        } else {
+          // Fallback to download if sharing not supported
+          downloadCard();
+        }
+        setDownloading(false);
+      });
+    } catch (error) {
+      console.error('Error sharing card:', error);
+      setDownloading(false);
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.card} style={{ background: design.background }}>
+      <div className={styles.card} ref={cardRef} style={{ background: design.background }}>
         <div className={styles.topCurve}></div>
 
         <div className={styles.topRow}>
@@ -120,6 +192,24 @@ export default function FifaCard({ profile, card }) {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Download/Share Buttons */}
+      <div className={styles.actionButtons}>
+        <button 
+          onClick={downloadCard} 
+          className={styles.actionButton}
+          disabled={downloading}
+        >
+          {downloading ? '⏳' : '💾'} Download
+        </button>
+        <button 
+          onClick={shareCard} 
+          className={styles.actionButton}
+          disabled={downloading}
+        >
+          {downloading ? '⏳' : '📤'} Share
+        </button>
       </div>
     </div>
   );
