@@ -62,10 +62,10 @@ export default function FifaCard({ profile, card }) {
 
         <div className={styles.flagRow}>
           <Image
-            src="/trinidad_flag.png"
+            src={card?.flag || "/trinidad_flag.png"}
             width={40}
             height={25}
-            alt="T&T flag"
+            alt="Flag"
           />
           <div className={styles.badgeBox}>
             {card?.team_crest ? (
